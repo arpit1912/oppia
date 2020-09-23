@@ -130,16 +130,15 @@ export class CollectionRightsObjectFactory {
       CollectionRights {
     return new CollectionRights(cloneDeep(collectionRightsBackendObject));
   }
-
   // Create a new, empty collection rights object. This is not guaranteed to
   // pass validation tests.
   createEmptyCollectionRights(): CollectionRights {
     return new CollectionRights({
       owner_names: [],
-      collection_id: null,
-      can_edit: null,
-      can_unpublish: null,
-      is_private: null
+      collection_id: 0,
+      can_edit: false,
+      can_unpublish: false,
+      is_private: false
     });
   }
 }
