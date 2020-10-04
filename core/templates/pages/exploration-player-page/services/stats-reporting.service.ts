@@ -108,7 +108,7 @@ export class StatsReportingService {
       return;
     }
 
-    this.statsReportingBackendApiService.postsStats(
+    this.statsReportingBackendApiService.postsStatsAsync(
       StatsReportingService.aggregatedStats,
       StatsReportingService.explorationVersion,
       StatsReportingService.explorationId,
@@ -155,7 +155,7 @@ export class StatsReportingService {
 
     StatsReportingService.currentStateName = stateName;
 
-    this.statsReportingBackendApiService.recordExpStarted(
+    this.statsReportingBackendApiService.recordExpStartedAsync(
       params, StatsReportingService.sessionId, stateName,
       StatsReportingService.explorationVersion,
       StatsReportingService.explorationId,
@@ -166,7 +166,7 @@ export class StatsReportingService {
       // Required for the post operation to deliver data to backend.
     });
 
-    this.statsReportingBackendApiService.recordStateHit(
+    this.statsReportingBackendApiService.recordStateHitAsync(
       0.0, StatsReportingService.explorationVersion, stateName,
       params, StatsReportingService.sessionId,
       StatsReportingService.explorationId,
@@ -197,7 +197,7 @@ export class StatsReportingService {
     StatsReportingService.aggregatedStats.num_actual_starts += 1;
     StatsReportingService.currentStateName = stateName;
 
-    this.statsReportingBackendApiService.recordExplorationActuallyStarted(
+    this.statsReportingBackendApiService.recordExplorationActuallyStartedAsync(
       StatsReportingService.explorationVersion, stateName,
       StatsReportingService.sessionId,
       StatsReportingService.explorationId,
@@ -218,7 +218,7 @@ export class StatsReportingService {
       stateName].num_times_solution_viewed += 1;
     StatsReportingService.currentStateName = stateName;
 
-    this.statsReportingBackendApiService.recordSolutionHit(
+    this.statsReportingBackendApiService.recordSolutionHitAsync(
       StatsReportingService.stateStopwatch.getTimeInSecs(),
       StatsReportingService.explorationVersion,
       stateName,
@@ -237,7 +237,7 @@ export class StatsReportingService {
     StatsReportingService.currentStateName = stateName;
     StatsReportingService.nextExpId = refresherExpId;
 
-    this.statsReportingBackendApiService.recordLeaveForRefresherExp(
+    this.statsReportingBackendApiService.recordLeaveForRefresherExpAsync(
       StatsReportingService.explorationVersion,
       refresherExpId,
       stateName,
@@ -269,7 +269,7 @@ export class StatsReportingService {
     StatsReportingService.previousStateName = oldStateName;
     StatsReportingService.nextStateName = newStateName;
 
-    this.statsReportingBackendApiService.recordStateHit(
+    this.statsReportingBackendApiService.recordStateHitAsync(
       StatsReportingService.stateStopwatch.getTimeInSecs(),
       StatsReportingService.explorationVersion,
       newStateName,
@@ -309,7 +309,7 @@ export class StatsReportingService {
 
     StatsReportingService.currentStateName = stateName;
 
-    this.statsReportingBackendApiService.recordStateCompleted(
+    this.statsReportingBackendApiService.recordStateCompletedAsync(
       StatsReportingService.explorationVersion,
       StatsReportingService.sessionId,
       stateName,
@@ -329,7 +329,7 @@ export class StatsReportingService {
     StatsReportingService.aggregatedStats.num_completions += 1;
     StatsReportingService.currentStateName = stateName;
 
-    this.statsReportingBackendApiService.recordExplorationCompleted(
+    this.statsReportingBackendApiService.recordExplorationCompletedAsync(
       StatsReportingService.stateStopwatch.getTimeInSecs(),
       StatsReportingService.optionalCollectionId,
       params,
@@ -374,7 +374,7 @@ export class StatsReportingService {
     }
     StatsReportingService.currentStateName = stateName;
 
-    this.statsReportingBackendApiService.recordAnswerSubmitted(
+    this.statsReportingBackendApiService.recordAnswerSubmittedAsync(
       answer, params, StatsReportingService.explorationVersion,
       StatsReportingService.sessionId,
       StatsReportingService.stateStopwatch.getTimeInSecs(),
@@ -396,7 +396,7 @@ export class StatsReportingService {
   recordMaybeLeaveEvent(stateName: string, params: Object): void {
     StatsReportingService.currentStateName = stateName;
 
-    this.statsReportingBackendApiService.recordMaybeLeaveEvent(
+    this.statsReportingBackendApiService.recordMaybeLeaveEventAsync(
       StatsReportingService.stateStopwatch.getTimeInSecs(),
       StatsReportingService.optionalCollectionId,
       params,
