@@ -16,11 +16,11 @@
  * @fileoverview Tests for CollectionRightsObjectFactory.
  */
 
-import { CollectionRightsObjectFactory } from
+import { CollectionRights, CollectionRightsObjectFactory } from
   'domain/collection/CollectionRightsObjectFactory';
 
 describe('Collection rights object factory', () => {
-  let collectionRightsObjectFactory: CollectionRightsObjectFactory = null;
+  let collectionRightsObjectFactory: CollectionRightsObjectFactory;
 
   beforeEach(() => {
     collectionRightsObjectFactory = new CollectionRightsObjectFactory();
@@ -147,17 +147,6 @@ describe('Collection rights object factory', () => {
     }
   );
 
-  it('should create an empty collection rights object', () => {
-    var emptyCollectionRightsBackendObject = (
-      collectionRightsObjectFactory.createEmptyCollectionRights());
-
-    expect(
-      emptyCollectionRightsBackendObject.getCollectionId()).toBeNull();
-    expect(emptyCollectionRightsBackendObject.canEdit()).toBeNull();
-    expect(emptyCollectionRightsBackendObject.canUnpublish()).toBeNull();
-    expect(emptyCollectionRightsBackendObject.isPrivate()).toBeNull();
-    expect(emptyCollectionRightsBackendObject.getOwnerNames()).toEqual([]);
-  });
 
   it('should make a copy from another collection rights', () => {
     var noUnpublishCollectionRightsBackendObject = {
@@ -172,10 +161,7 @@ describe('Collection rights object factory', () => {
       noUnpublishCollectionRightsBackendObject);
 
     var emptyCollectionRightsBackendObject = (
-      collectionRightsObjectFactory.createEmptyCollectionRights());
-
-    emptyCollectionRightsBackendObject.copyFromCollectionRights(
-      sampleCollectionRights);
+      CollectionRights.copyFromCollectionRights(sampleCollectionRights));
     expect(emptyCollectionRightsBackendObject.getCollectionId()).toEqual(0);
     expect(emptyCollectionRightsBackendObject.canEdit()).toBe(true);
     expect(emptyCollectionRightsBackendObject.canUnpublish()).toBe(false);

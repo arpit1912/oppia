@@ -104,17 +104,20 @@ export class CollectionRights {
     return this._ownerNames;
   }
 
-  // Reassigns all values within this collection to match the existing
-  // collection rights. This is performed as a deep copy such that none of the
-  // internal, bindable objects are changed within this collection rights.
-  // Note that the collection nodes within this collection will be completely
-  // redefined as copies from the specified collection rights.
-  copyFromCollectionRights(otherCollectionRights: CollectionRights): void {
-    this._collectionId = otherCollectionRights.getCollectionId();
-    this._canEdit = otherCollectionRights.canEdit();
-    this._isPrivate = otherCollectionRights.isPrivate();
-    this._canUnpublish = otherCollectionRights.canUnpublish();
-    this._ownerNames = otherCollectionRights.getOwnerNames();
+  // Creates copy of the collection rights. This is performed as a deep copy
+  // such that none of the internal, bindable objects are changed within this
+  // collection rights. Note that the collection nodes within this collection
+  // will be completely redefined as copies from the specified collection
+  // rights.
+  static copyFromCollectionRights(
+      otherCollectionRights: CollectionRights): CollectionRights {
+    return new CollectionRights({
+      collection_id: otherCollectionRights.getCollectionId(),
+      can_edit: otherCollectionRights.canEdit(),
+      can_unpublish: otherCollectionRights.canUnpublish(),
+      is_private: otherCollectionRights.isPrivate(),
+      owner_names: otherCollectionRights.getOwnerNames()
+    });
   }
 }
 
@@ -129,18 +132,6 @@ export class CollectionRightsObjectFactory {
       collectionRightsBackendObject: CollectionRightsBackendDict):
       CollectionRights {
     return new CollectionRights(cloneDeep(collectionRightsBackendObject));
-  }
-
-  // Create a new, empty collection rights object. This is not guaranteed to
-  // pass validation tests.
-  createEmptyCollectionRights(): CollectionRights {
-    return new CollectionRights({
-      owner_names: [],
-      collection_id: null,
-      can_edit: null,
-      can_unpublish: null,
-      is_private: null
-    });
   }
 }
 
