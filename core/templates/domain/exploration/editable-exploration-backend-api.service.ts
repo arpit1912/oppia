@@ -16,11 +16,87 @@
  * @fileoverview Service to send changes to a exploration to the backend.
  */
 
-require('domain/exploration/read-only-exploration-backend-api.service.ts');
-require('domain/utilities/url-interpolation.service.ts');
+import { Injectable } from '@angular/core';
+import { downgradeInjectable } from '@angular/upgrade/static';
 
-require(
-  'pages/exploration-player-page/exploration-player-page.constants.ajs.ts');
+import { HttpClient } from '@angular/common/http';
+import { ReadOnlyExplorationBackendApiService } from
+  'domain/exploration/read-only-exploration-backend-api.service';
+import { UrlInterpolationService } from
+  'domain/utilities/url-interpolation.service';
+
+import { ExplorationPlayerConstants } from
+  'pages/exploration-player-page/exploration-player-page.constants';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EditableExplorationBackendApiService {
+  constructor(
+    private httpClient: HttpClient,
+    private readOnlyExplorationBackendApiService:
+    ReadOnlyExplorationBackendApiService,
+    private urlInterpolationService: UrlInterpolationService) {}
+
+  private _getExplorationUrl = function(explorationId, applyDraft) {
+    if (applyDraft) {
+      return UrlInterpolationService.interpolateUrl(
+        EDITABLE_EXPLORATION_DATA_DRAFT_URL_TEMPLATE, {
+          exploration_id: explorationId,
+          apply_draft: JSON.stringify(applyDraft)
+        }
+      );
+    }
+    return UrlInterpolationService.interpolateUrl(
+      EDITABLE_EXPLORATION_DATA_URL_TEMPLATE, {
+        exploration_id: explorationId
+      }
+    );
+  };
+
+  private _fetchExploration(
+      explorationId, applyDraft, successCallback, errorCallback) {
+    let editableExplorationDataUrl = this._getExplorationUrl(
+      explorationId, applyDraft);
+    this.httpClient.get(
+      editableExplorationDataUrl).toPromise().then((response) => {
+      let exploration = angular.copy(response);
+      successCallback(exploration);
+    }, (errorResponse) => {
+      errorCallback(errorResponse.error.error);
+    });
+  }
+
+  private _updateExploration(
+      explorationId, explorationVersion, commitMessage, changeList,
+      successCallback, errorCallback) {
+    let editableExplorationDataUrl = this._getExplorationUrl(
+      explorationId, null);
+
+    let putData = {
+      version: explorationVersion,
+      commit_message: commitMessage,
+      change_list: changeList
+    };
+    this.httpClient.put(
+      editableExplorationDataUrl, putData).toPromise().then((response) => {
+      // The returned data is an updated exploration dict.
+      let exploration = angular.copy(response);
+
+      // Delete from the ReadOnlyExplorationBackendApiService's cache
+      // As the two versions of the data (learner and editor) now differ.
+      this.readOnlyExplorationBackendApiService.deleteExplorationFromCache(
+        explorationId);
+      successCallback(exploration);
+    }, (errorResponse) => {
+      errorCallback(errorResponse.error.error);
+    }
+    );
+  }
+}
+angular.module('oppia').factory(
+  'EditableExplorationBackendApiService',
+  downgradeInjectable(EditableExplorationBackendApiService));
 
 angular.module('oppia').factory('EditableExplorationBackendApiService', [
   '$http', '$q', 'ReadOnlyExplorationBackendApiService',
