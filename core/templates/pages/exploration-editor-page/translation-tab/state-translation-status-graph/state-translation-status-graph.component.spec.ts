@@ -34,6 +34,7 @@ import { UtilsService } from 'services/utils.service';
 import { ReadOnlyExplorationBackendApiService } from
   'domain/exploration/read-only-exploration-backend-api.service';
 import { Subscription } from 'rxjs';
+import { EditableExplorationBackendApiService } from 'domain/exploration/editable-exploration-backend-api.service';
 
 describe('State Translation Status Graph Component', function() {
   var $rootScope = null;
@@ -74,6 +75,9 @@ describe('State Translation Status Graph Component', function() {
     $provide.value(
       'ReadOnlyExplorationBackendApiService',
       TestBed.get(ReadOnlyExplorationBackendApiService));
+    $provide.value(
+      'EditableExplorationBackendApiService',
+      TestBed.get(EditableExplorationBackendApiService));
   }));
 
   beforeEach(function() {

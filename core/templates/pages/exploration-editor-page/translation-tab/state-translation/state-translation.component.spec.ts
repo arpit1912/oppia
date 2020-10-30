@@ -75,6 +75,8 @@ import { SubtitledUnicodeObjectFactory } from
   'domain/exploration/SubtitledUnicodeObjectFactory';
 import { ReadOnlyExplorationBackendApiService } from
   'domain/exploration/read-only-exploration-backend-api.service';
+import { EditableExplorationBackendApiService } from
+  'domain/exploration/editable-exploration-backend-api.service';
 
 describe('State translation component', function() {
   var ctrl = null;
@@ -413,6 +415,9 @@ describe('State translation component', function() {
     $provide.value(
       'ReadOnlyExplorationBackendApiService',
       TestBed.get(ReadOnlyExplorationBackendApiService));
+    $provide.value(
+      'EditableExplorationBackendApiService',
+      TestBed.get(EditableExplorationBackendApiService));
   }));
 
   beforeEach(function() {

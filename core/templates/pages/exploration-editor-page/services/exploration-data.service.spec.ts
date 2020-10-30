@@ -76,8 +76,9 @@ describe('Exploration data service', function() {
     }
   };
 
-  beforeEach(angular.mock.module('oppia'));
   importAllAngularServices();
+
+  beforeEach(angular.mock.module('oppia'));
   beforeEach(angular.mock.module('oppia', function($provide) {
     $provide.value('UrlService', {
       getPathname: function() {
@@ -127,11 +128,10 @@ describe('Exploration data service', function() {
       expect(data).toEqual(sampleDataResults);
       expect(errorCallback).not.toHaveBeenCalled();
     });
-    $httpBackend.flush(2);
   });
 
   it('should not autosave draft changes when draft is already cached',
-    function() {
+    fakeAsync(() => {
       var errorCallback = jasmine.createSpy('error');
       spyOn(lss, 'getExplorationDraft').and.returnValue({
         isValid: function() {
@@ -141,7 +141,6 @@ describe('Exploration data service', function() {
           return [];
         }
       });
-
       $httpBackend.expect('GET', '/createhandler/data/0?apply_draft=true')
         .respond(sampleDataResults);
       $httpBackend.expectPUT('/createhandler/autosave_draft/0').respond({
@@ -152,8 +151,6 @@ describe('Exploration data service', function() {
         expect(data).toEqual(sampleDataResults);
         expect(errorCallback).not.toHaveBeenCalled();
       });
-      $httpBackend.flush(2);
-      $httpBackend.verifyNoOutstandingExpectation();
 
       var logInfoSpy = spyOn(ls, 'info').and.callThrough();
       // Draft is already saved and it's in cache.
@@ -163,8 +160,7 @@ describe('Exploration data service', function() {
         expect(data).toEqual(sampleDataResults);
         expect(errorCallback).not.toHaveBeenCalled();
       });
-      $httpBackend.verifyNoOutstandingRequest();
-    });
+    }));
 
   it('should autosave draft changes when draft ids match', function() {
     var errorCallback = jasmine.createSpy('error');
@@ -187,7 +183,6 @@ describe('Exploration data service', function() {
       expect(errorCallback).not.toHaveBeenCalled();
       expect(windowRefSpy).not.toHaveBeenCalled();
     });
-    $httpBackend.flush(2);
   });
 
   it('should call error callback when draft ids do not match', function() {
@@ -296,7 +291,7 @@ describe('Exploration data service', function() {
       expect(data).toEqual(sampleDataResults);
       expect(errorCallback).not.toHaveBeenCalled();
     });
-    $httpBackend.flush(2);
+    $httpBackend.flush();
 
     $httpBackend.expectPUT('/createhandler/data/0').respond(response);
     eds.save(changeList, 'Commit Message', successHandler, failHandler);
@@ -366,7 +361,7 @@ describe('Exploration data service', function() {
         expect(data).toEqual(sampleDataResults);
         expect(errorCallback).not.toHaveBeenCalled();
       });
-      $httpBackend.flush(2);
+      $httpBackend.flush();
 
       $httpBackend.expectPUT('/createhandler/data/0').respond(500);
       eds.save(changeList, 'Commit Message', successHandler, failHandler);

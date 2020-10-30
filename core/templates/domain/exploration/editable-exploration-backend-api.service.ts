@@ -25,9 +25,6 @@ import { ReadOnlyExplorationBackendApiService } from
 import { UrlInterpolationService } from
   'domain/utilities/url-interpolation.service';
 
-import { ExplorationPlayerConstants } from
-  'pages/exploration-player-page/exploration-player-page.constants';
-
 import { AppConstants } from 'app.constants';
 
 @Injectable({
@@ -41,9 +38,8 @@ export class EditableExplorationBackendApiService {
     private urlInterpolationService: UrlInterpolationService) {}
 
   private _getExplorationUrl(
-    explorationId: string,
-    applyDraft: boolean) 
-  :string {
+      explorationId: string,
+      applyDraft: boolean):string {
     if (applyDraft) {
       return this.urlInterpolationService.interpolateUrl(
         AppConstants.EDITABLE_EXPLORATION_DATA_DRAFT_URL_TEMPLATE, {
@@ -62,101 +58,89 @@ export class EditableExplorationBackendApiService {
   private _fetchExploration(
       explorationId: string,
       applyDraft: boolean,
-      successCallback: (value: any ) => void,
-      errorCallback: (reason?: string) => void)
-      : Promise<any> {
-        return new Promise((resolve, reject) => {
-    let editableExplorationDataUrl = this._getExplorationUrl(
-      explorationId, applyDraft);
-    this.httpClient.get(
-      editableExplorationDataUrl)
-      .toPromise()
-      .then((response) => {
-      let exploration = angular.copy(response);
-      successCallback(exploration);
-    }, (errorResponse) => {
-      errorCallback(errorResponse.error.error);
+      successCallback: (value: unknown) => void,
+      errorCallback: (reason?: string) => void): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      let editableExplorationDataUrl = this._getExplorationUrl(
+        explorationId, applyDraft);
+      this.httpClient.get(
+        editableExplorationDataUrl).toPromise().then((response) => {
+        let exploration = angular.copy(response);
+        successCallback(exploration);
+      }, (errorResponse) => {
+        errorCallback(errorResponse.error.error);
+      });
     });
-  });
-}
+  }
 
   private _updateExploration(
       explorationId: string,
       explorationVersion: string,
-      commitMessage: string, 
+      commitMessage: string,
       changeList: string[],
-      successCallback: (value: any ) => void,
-      errorCallback: (reason?: string) => void)
-      : Promise<any> {
-        return new Promise((resolve, reject) => {
-    let editableExplorationDataUrl = this._getExplorationUrl(
-      explorationId, null);
+      successCallback: (value: unknown) => void,
+      errorCallback: (reason?: string) => void): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      let editableExplorationDataUrl = this._getExplorationUrl(
+        explorationId, null);
 
-    let putData = {
-      version: explorationVersion,
-      commit_message: commitMessage,
-      change_list: changeList
-    };
-    this.httpClient.put(
-      editableExplorationDataUrl, putData)
-      .toPromise()
-      .then((response) => {
-      // The returned data is an updated exploration dict.
-      let exploration = angular.copy(response);
+      let putData = {
+        version: explorationVersion,
+        commit_message: commitMessage,
+        change_list: changeList
+      };
+      this.httpClient.put(
+        editableExplorationDataUrl, putData)
+        .toPromise()
+        .then((response) => {
+        // The returned data is an updated exploration dict.
+          let exploration = angular.copy(response);
 
-      // Delete from the ReadOnlyExplorationBackendApiService's cache
-      // As the two versions of the data (learner and editor) now differ.
-      this.readOnlyExplorationBackendApiService.deleteExplorationFromCache(
-        explorationId);
-      successCallback(exploration);
-    }, (errorResponse) => {
-      errorCallback(errorResponse.error.error);
-    }
-    );
-  });}
+          // Delete from the ReadOnlyExplorationBackendApiService's cache
+          // As the two versions of the data (learner and editor) now differ.
+          this.readOnlyExplorationBackendApiService.deleteExplorationFromCache(
+            explorationId);
+          successCallback(exploration);
+        }, (errorResponse) => {
+          errorCallback(errorResponse.error.error);
+        }
+        );
+    });
+  }
 
-  private _deleteExploration (
-    explorationId:string,
-    successCallback: (value: any ) => void,
-    errorCallback: (reason?: string) => void)
-    : Promise<any> {
-      return new Promise((resolve, reject) => {
-  var editableExplorationDataUrl =this. _getExplorationUrl(explorationId, null);
+  private _deleteExploration(
+      explorationId: string,
+      successCallback: (value: unknown) => void,
+      errorCallback: (reason?: string) => void): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      var editableExplorationDataUrl = this._getExplorationUrl(
+        explorationId, null);
 
-  this.httpClient.delete(editableExplorationDataUrl)
-  .toPromise()
-  .then(
-    response => {
-    // Delete item from the ReadOnlyExplorationBackendApiService's cache.
-    this.readOnlyExplorationBackendApiService.deleteExplorationFromCache(
-      explorationId);
-    if (successCallback) {
-      successCallback({});
-    }
-  },  errorResponse => {
-    if (errorCallback) {
-      errorCallback(errorResponse.error.error);
-    }
-  });
-});
-    }
+      this.httpClient['delete'](editableExplorationDataUrl)
+        .toPromise()
+        .then(response => {
+          // Delete item from the ReadOnlyExplorationBackendApiService's cache.
+          this.readOnlyExplorationBackendApiService.deleteExplorationFromCache(
+            explorationId);
+          successCallback({});
+        }, errorResponse => {
+          errorCallback(errorResponse.error.error);
+        });
+    });
+  }
 
-fetchExploration(
-  explorationId: string) 
-: Promise<any> {
-  return new Promise((resolve, reject) => {
-    this._fetchExploration(explorationId, null, resolve, reject);
-  });
-}
+  fetchExploration(explorationId: string): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      this._fetchExploration(explorationId, null, resolve, reject);
+    });
+  }
 
-fetchApplyDraftExploration(
-  explorationId: string)
-  : Promise<any> {
-      return new Promise((resolve, reject) => {
-    this._fetchExploration(explorationId, true, resolve, reject);
-  });
-}
-/**
+  fetchApplyDraftExploration(explorationId: string): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      this._fetchExploration(explorationId, true, resolve, reject);
+    });
+  }
+  /**
    * Updates an exploration in the backend with the provided exploration
    * ID. The changes only apply to the exploration of the given version
    * and the request to update the exploration will fail if the provided
@@ -169,17 +153,16 @@ fetchApplyDraftExploration(
    * called the cached exploration in ReadOnlyExplorationBackendApiService
    * will be deleted. This is due to the differences in the back-end
    * editor object and the back-end player object. As it stands now,
-   * we are unable to cache any Exploration object obtained from the
+   * we are unable to cache unknown Exploration object obtained from the
    * editor beackend.
    */
   updateExploration(
       explorationId: string,
-      explorationVersion: string, 
+      explorationVersion: string,
       commitMessage: string,
-      changeList: string[]) 
-      : Promise<any> {
-        return new Promise((resolve, reject) => {
-      this. _updateExploration(
+      changeList: string[]): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      this._updateExploration(
         explorationId, explorationVersion, commitMessage, changeList,
         resolve, reject);
     });
@@ -191,15 +174,11 @@ fetchApplyDraftExploration(
      * ReadOnlyExplorationBackendApiService cache as well.
      * Errors are passed to the error callback, if one is provided.
      */
-  deleteExploration(
-      explorationId: string)
-      : Promise<any> {
-        return new Promise((resolve, reject) => {
-      
-        this._deleteExploration(
-          explorationId, resolve, reject);
-      });
-    }    
+  deleteExploration(explorationId: string): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      this._deleteExploration(explorationId, resolve, reject);
+    });
+  }
 }
 angular.module('oppia').factory(
   'EditableExplorationBackendApiService',

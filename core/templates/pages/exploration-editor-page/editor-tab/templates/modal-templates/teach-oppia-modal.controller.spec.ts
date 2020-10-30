@@ -42,6 +42,7 @@ import { TextInputRulesService } from
   'interactions/TextInput/directives/text-input-rules.service';
 import { ReadOnlyExplorationBackendApiService } from
   'domain/exploration/read-only-exploration-backend-api.service';
+import { EditableExplorationBackendApiService } from 'domain/exploration/editable-exploration-backend-api.service';
 
 describe('Teach Oppia Modal Controller', function() {
   var $httpBackend = null;
@@ -157,6 +158,9 @@ describe('Teach Oppia Modal Controller', function() {
     $provide.value(
       'ReadOnlyExplorationBackendApiService',
       TestBed.get(ReadOnlyExplorationBackendApiService));
+    $provide.value(
+      'EditableExplorationBackendApiService',
+      TestBed.get(EditableExplorationBackendApiService));
   }));
 
   describe('when successfully fetching top unresolved answers', function() {

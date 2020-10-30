@@ -27,6 +27,7 @@ import { StateEditorRefreshService } from
 import { DateTimeFormatService } from 'services/date-time-format.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReadOnlyExplorationBackendApiService } from 'domain/exploration/read-only-exploration-backend-api.service';
+import { EditableExplorationBackendApiService } from 'domain/exploration/editable-exploration-backend-api.service';
 
 describe('Feedback Tab Component', function() {
   var ctrl = null;
@@ -65,6 +66,9 @@ describe('Feedback Tab Component', function() {
     $provide.value(
       'ReadOnlyExplorationBackendApiService',
       TestBed.get(ReadOnlyExplorationBackendApiService));
+    $provide.value(
+      'EditableExplorationBackendApiService',
+      TestBed.get(EditableExplorationBackendApiService));
   }));
 
   beforeEach(angular.mock.inject(function($injector, $componentController) {

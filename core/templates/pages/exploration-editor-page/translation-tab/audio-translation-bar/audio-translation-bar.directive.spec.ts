@@ -58,6 +58,7 @@ import { ReadOnlyExplorationBackendApiService } from 'domain/exploration/read-on
 
 import WaveSurfer from 'wavesurfer.js';
 import $ from 'jquery';
+import { EditableExplorationBackendApiService } from 'domain/exploration/editable-exploration-backend-api.service';
 
 require(
   'pages/exploration-editor-page/translation-tab/audio-translation-bar/' +
@@ -143,6 +144,9 @@ describe('Audio translation bar directive', function() {
     $provide.value(
       'ReadOnlyExplorationBackendApiService',
       TestBed.get(ReadOnlyExplorationBackendApiService));
+    $provide.value(
+      'EditableExplorationBackendApiService',
+      TestBed.get(EditableExplorationBackendApiService));
   }));
 
   beforeEach(angular.mock.inject(function($injector) {
