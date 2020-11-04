@@ -77,6 +77,11 @@ import { ReadOnlyExplorationBackendApiService } from
   'domain/exploration/read-only-exploration-backend-api.service';
 import { EditableExplorationBackendApiService } from
   'domain/exploration/editable-exploration-backend-api.service';
+// TODO(#7222): Remove the following block of unnnecessary imports once
+// the code corresponding to the spec is upgraded to Angular 8.
+import { importAllAngularServices } from 'tests/unit-test-utils';
+// ^^^ This block is to be removed.
+
 
 describe('State translation component', function() {
   var ctrl = null;
@@ -368,6 +373,9 @@ describe('State translation component', function() {
 
   var refreshStateTranslationEmitter = new EventEmitter();
   var showTranslationTabBusyModalEmitter = new EventEmitter();
+  beforeEach(angular.mock.module('oppia'));
+
+  importAllAngularServices();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -483,6 +491,7 @@ describe('State translation component', function() {
       refreshStateTranslationEmitter.emit();
 
       expect($scope.isActive('content')).toBe(true);
+      expect($scope.isVoiceoverModeActive()).toBe(true);
       expect($scope.isDisabled('content')).toBe(false);
       expect(translationTabActiveContentIdService.setActiveContent)
         .toHaveBeenCalledWith('content_1', 'html');
@@ -786,6 +795,7 @@ describe('State translation component', function() {
       $scope.onTabClick('content');
 
       expect(showTranslationTabBusyModalEmitter.emit).toHaveBeenCalled();
+      expect($scope.isVoiceoverModeActive()).toBe(false);
       expect(translationTabActiveContentIdService.setActiveContent).not
         .toHaveBeenCalled();
     });

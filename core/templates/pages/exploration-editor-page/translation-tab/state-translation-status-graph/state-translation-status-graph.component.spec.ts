@@ -36,6 +36,11 @@ import { ReadOnlyExplorationBackendApiService } from
 import { Subscription } from 'rxjs';
 import { EditableExplorationBackendApiService } from 'domain/exploration/editable-exploration-backend-api.service';
 
+// TODO(#7222): Remove the following block of unnnecessary imports once
+// the code corresponding to the spec is upgraded to Angular 8.
+import { importAllAngularServices } from 'tests/unit-test-utils';
+// ^^^ This block is to be removed.
+
 describe('State Translation Status Graph Component', function() {
   var $rootScope = null;
   var $scope = null;
@@ -54,6 +59,10 @@ describe('State Translation Status Graph Component', function() {
     recorded_voiceovers: {},
     written_translations: {}
   };
+
+  beforeEach(angular.mock.module('oppia'));
+
+  importAllAngularServices();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
