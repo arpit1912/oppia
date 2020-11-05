@@ -131,7 +131,7 @@ describe('Exploration data service', function() {
       expect(data).toEqual(sampleDataResults);
       expect(errorCallback).not.toHaveBeenCalled();
     });
-   // $httpBackend.flush();
+    $httpBackend.flush();
   });
 
   it('should not autosave draft changes when draft is already cached',
@@ -252,7 +252,7 @@ describe('Exploration data service', function() {
     expect(req.request.method).toEqual('GET');
     req.flush(sampleDataResults);
     flushMicrotasks();
-   
+
     expect(successHandler).toHaveBeenCalledWith(
       sampleDataResults.exploration);
     expect(logInfoSpy).toHaveBeenCalledTimes(2);
@@ -335,9 +335,9 @@ describe('Exploration data service', function() {
     eds.getData(errorCallback).then(function() {
       expect(errorCallback).toHaveBeenCalled();
     });
-    
 
-    $httpBackend.expectPUT('/createhandler/data/0?apply_draft=true').respond(response);
+    $httpBackend.expectPUT(
+      '/createhandler/data/0?apply_draft=true').respond(response);
     eds.save(changeList, 'Commit Message', successHandler, failHandler);
     //$httpBackend.flush(response);
 
@@ -371,7 +371,6 @@ describe('Exploration data service', function() {
         expect(data).toEqual(sampleDataResults);
         expect(errorCallback).not.toHaveBeenCalled();
       });
-      
 
       $httpBackend.expectPUT('/createhandler/data/0').respond(500);
       eds.save(changeList, 'Commit Message', successHandler, failHandler);
