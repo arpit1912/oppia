@@ -32,7 +32,7 @@ interface StateClassifierMappingBackendDict {
   [state: string]: ClassifierBackendDict;
 }
 
-interface ReadOnlyExplorationBackendDict {
+export interface ReadOnlyExplorationBackendDict {
   'init_state_name': string;
   'param_changes': ParamChangeBackendDict[];
   'param_specs': ParamSpecsBackendDict;

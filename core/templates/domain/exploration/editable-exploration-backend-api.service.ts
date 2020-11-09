@@ -24,7 +24,8 @@ import { ReadOnlyExplorationBackendApiService } from
   'domain/exploration/read-only-exploration-backend-api.service';
 import { UrlInterpolationService } from
   'domain/utilities/url-interpolation.service';
-
+import { ExplorationBackendDict } from 'domain/exploration/ExplorationObjectFactory';
+import { DraftExplorationResponse } from 'pages/exploration-editor-page/services/exploration-data.service';
 import { AppConstants } from 'app.constants';
 
 @Injectable({
@@ -58,12 +59,14 @@ export class EditableExplorationBackendApiService {
   private _fetchExploration(
       explorationId: string,
       applyDraft: boolean,
-      successCallback: (value: unknown) => void,
-      errorCallback: (reason?: string) => void): Promise<unknown> {
+      successCallback:
+      (value: ExplorationBackendDict | DraftExplorationResponse) => void,
+      errorCallback: (reason?: string) => void)
+      : Promise<ExplorationBackendDict | DraftExplorationResponse> {
     return new Promise((resolve, reject) => {
       let editableExplorationDataUrl = this._getExplorationUrl(
         explorationId, applyDraft);
-      this.httpClient.get(
+      this.httpClient.get<ExplorationBackendDict | DraftExplorationResponse>(
         editableExplorationDataUrl).toPromise().then((response) => {
         let exploration = angular.copy(response);
         successCallback(exploration);
@@ -79,7 +82,8 @@ export class EditableExplorationBackendApiService {
       commitMessage: string,
       changeList: string[],
       successCallback: (value: unknown) => void,
-      errorCallback: (reason?: string) => void): Promise<unknown> {
+      errorCallback: (reason?: string) => void)
+      : Promise<ExplorationBackendDict> {
     return new Promise((resolve, reject) => {
       let editableExplorationDataUrl = this._getExplorationUrl(
         explorationId, null);
@@ -129,13 +133,15 @@ export class EditableExplorationBackendApiService {
     });
   }
 
-  fetchExploration(explorationId: string): Promise<unknown> {
+  fetchExploration(explorationId: string)
+  : Promise<ExplorationBackendDict | DraftExplorationResponse> {
     return new Promise((resolve, reject) => {
       this._fetchExploration(explorationId, null, resolve, reject);
     });
   }
 
-  fetchApplyDraftExploration(explorationId: string): Promise<unknown> {
+  fetchApplyDraftExploration(explorationId: string)
+  : Promise<ExplorationBackendDict | DraftExplorationResponse> {
     return new Promise((resolve, reject) => {
       this._fetchExploration(explorationId, true, resolve, reject);
     });
@@ -160,7 +166,7 @@ export class EditableExplorationBackendApiService {
       explorationId: string,
       explorationVersion: string,
       commitMessage: string,
-      changeList: string[]): Promise<unknown> {
+      changeList: string[]): Promise<ExplorationBackendDict> {
     return new Promise((resolve, reject) => {
       this._updateExploration(
         explorationId, explorationVersion, commitMessage, changeList,
@@ -183,4 +189,3 @@ export class EditableExplorationBackendApiService {
 angular.module('oppia').factory(
   'EditableExplorationBackendApiService',
   downgradeInjectable(EditableExplorationBackendApiService));
-

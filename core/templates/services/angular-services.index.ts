@@ -205,6 +205,7 @@ import { AdminTaskManagerService } from 'pages/admin-page/services/admin-task-ma
 import { ContributionOpportunitiesBackendApiService } from 'pages/contributor-dashboard-page/services/contribution-opportunities-backend-api.service';
 import { EmailDashboardDataService } from 'pages/email-dashboard-pages/email-dashboard-data.service';
 import { AnswerGroupsCacheService } from 'pages/exploration-editor-page/editor-tab/services/answer-groups-cache.service';
+import { ExplorationDataService } from 'pages/exploration-editor-page/services/exploration-data.service';
 import { InteractionDetailsCacheService } from 'pages/exploration-editor-page/editor-tab/services/interaction-details-cache.service';
 import { SolutionValidityService } from 'pages/exploration-editor-page/editor-tab/services/solution-validity.service';
 import { ThreadStatusDisplayService } from 'pages/exploration-editor-page/feedback-tab/services/thread-status-display.service';
@@ -368,6 +369,7 @@ export const angularServices: [string, unknown][] = [
   ['EmailDashboardDataService', EmailDashboardDataService],
   ['EndExplorationRulesService', EndExplorationRulesService],
   ['EndExplorationValidationService', EndExplorationValidationService],
+  ['ExplorationDataService', ExplorationDataService],
   ['ExplorationSummaryBackendApiService', ExplorationSummaryBackendApiService],
   ['ExplorationDiffService', ExplorationDiffService],
   ['ExplorationFeaturesBackendApiService',
