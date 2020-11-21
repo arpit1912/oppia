@@ -53,8 +53,10 @@ import { UserExplorationPermissionsService } from
 import { StateEditorRefreshService } from
   'pages/exploration-editor-page/services/state-editor-refresh.service.ts';
 import { ExternalSaveService } from 'services/external-save.service';
-
-import $ from 'jquery';
+import { ReadOnlyExplorationBackendApiService } from
+  'domain/exploration/read-only-exploration-backend-api.service';
+import { EditableExplorationBackendApiService } from
+  'domain/exploration/editable-exploration-backend-api.service';
 
 // TODO(#7222): Remove the following block of unnnecessary imports once
 // the code corresponding to the spec is upgraded to Angular 8.
@@ -123,6 +125,12 @@ describe('Translation tab component', function() {
     $provide.value(
       'StateWrittenTranslationsService',
       TestBed.get(StateWrittenTranslationsService));
+    $provide.value(
+      'ReadOnlyExplorationBackendApiService',
+      TestBed.get(ReadOnlyExplorationBackendApiService));
+    $provide.value(
+      'EditableExplorationBackendApiService',
+      TestBed.get(EditableExplorationBackendApiService));
   }));
 
   beforeEach(angular.mock.inject(function($injector, $componentController) {

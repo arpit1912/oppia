@@ -58,8 +58,8 @@ import { WrittenTranslationObjectFactory } from
   'domain/exploration/WrittenTranslationObjectFactory';
 import { WrittenTranslationsObjectFactory } from
   'domain/exploration/WrittenTranslationsObjectFactory';
-
 import { importAllAngularServices } from 'tests/unit-test-utils';
+// ^^^ This block is to be removed.
 
 require('pages/exploration-editor-page/services/graph-data.service');
 require('pages/exploration-editor-page/services/exploration-property.service');

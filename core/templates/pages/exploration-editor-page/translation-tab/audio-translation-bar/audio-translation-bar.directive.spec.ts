@@ -18,6 +18,7 @@
 
 import { EventEmitter } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AnswerGroupsCacheService } from
   // eslint-disable-next-line max-len
   'pages/exploration-editor-page/editor-tab/services/answer-groups-cache.service';
@@ -53,9 +54,11 @@ import { StateEditorRefreshService } from
   'pages/exploration-editor-page/services/state-editor-refresh.service';
 import { EditabilityService } from 'services/editability.service';
 import { AlertsService } from 'services/alerts.service';
+import { ReadOnlyExplorationBackendApiService } from 'domain/exploration/read-only-exploration-backend-api.service';
 
 import WaveSurfer from 'wavesurfer.js';
 import $ from 'jquery';
+import { EditableExplorationBackendApiService } from 'domain/exploration/editable-exploration-backend-api.service';
 
 // TODO(#7222): Remove the following block of unnnecessary imports once
 // the code corresponding to the spec is upgraded to Angular 8.
@@ -104,6 +107,11 @@ describe('Audio translation bar directive', function() {
   importAllAngularServices();
 
   beforeEach(angular.mock.module('directiveTemplates'));
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule]
+    });
+  });
   beforeEach(function() {
     alertsService = TestBed.get(AlertsService);
     editabilityService = TestBed.get(EditabilityService);
@@ -142,6 +150,12 @@ describe('Audio translation bar directive', function() {
     $provide.value(
       'StateWrittenTranslationsService',
       TestBed.get(StateWrittenTranslationsService));
+    $provide.value(
+      'ReadOnlyExplorationBackendApiService',
+      TestBed.get(ReadOnlyExplorationBackendApiService));
+    $provide.value(
+      'EditableExplorationBackendApiService',
+      TestBed.get(EditableExplorationBackendApiService));
   }));
 
   beforeEach(angular.mock.inject(function($injector) {

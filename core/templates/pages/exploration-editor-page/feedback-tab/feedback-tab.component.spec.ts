@@ -25,6 +25,9 @@ import { SuggestionThreadObjectFactory } from
 import { StateEditorRefreshService } from
   'pages/exploration-editor-page/services/state-editor-refresh.service';
 import { DateTimeFormatService } from 'services/date-time-format.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ReadOnlyExplorationBackendApiService } from 'domain/exploration/read-only-exploration-backend-api.service';
+import { EditableExplorationBackendApiService } from 'domain/exploration/editable-exploration-backend-api.service';
 
 // TODO(#7222): Remove the following block of unnnecessary imports once
 // the code corresponding to the spec is upgraded to Angular 8.
@@ -49,7 +52,11 @@ describe('Feedback Tab Component', function() {
   importAllAngularServices();
 
   beforeEach(angular.mock.module('oppia'));
-
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule]
+    });
+  });
   beforeEach(function() {
     alertsService = TestBed.get(AlertsService);
     dateTimeFormatService = TestBed.get(DateTimeFormatService);
@@ -63,6 +70,12 @@ describe('Feedback Tab Component', function() {
     $provide.value(
       'SuggestionModalService', TestBed.get(SuggestionModalService));
     $provide.value('RouterService', {});
+    $provide.value(
+      'ReadOnlyExplorationBackendApiService',
+      TestBed.get(ReadOnlyExplorationBackendApiService));
+    $provide.value(
+      'EditableExplorationBackendApiService',
+      TestBed.get(EditableExplorationBackendApiService));
   }));
 
   beforeEach(angular.mock.inject(function($injector, $componentController) {

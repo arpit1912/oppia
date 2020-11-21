@@ -57,6 +57,7 @@ import { CreatorDashboardBackendApiService } from 'domain/creator_dashboard/crea
 import { EmailDashboardBackendApiService } from 'domain/email-dashboard/email-dashboard-backend-api.service';
 import { AnswerGroupObjectFactory } from 'domain/exploration/AnswerGroupObjectFactory';
 import { AnswerStatsObjectFactory } from 'domain/exploration/AnswerStatsObjectFactory';
+import { EditableExplorationBackendApiService } from 'domain/exploration/editable-exploration-backend-api.service';
 import { ExplorationObjectFactory } from 'domain/exploration/ExplorationObjectFactory';
 import { HintObjectFactory } from 'domain/exploration/HintObjectFactory';
 import { InteractionObjectFactory } from 'domain/exploration/InteractionObjectFactory';
@@ -76,6 +77,7 @@ import { SubtitledUnicodeObjectFactory } from 'domain/exploration/SubtitledUnico
 import { VoiceoverObjectFactory } from 'domain/exploration/VoiceoverObjectFactory';
 import { WrittenTranslationObjectFactory } from 'domain/exploration/WrittenTranslationObjectFactory';
 import { WrittenTranslationsObjectFactory } from 'domain/exploration/WrittenTranslationsObjectFactory';
+import { ReadOnlyExplorationBackendApiService } from 'domain/exploration/read-only-exploration-backend-api.service';
 import { ExplorationPermissionsBackendApiService } from 'domain/exploration/exploration-permissions-backend-api.service';
 import { StateInteractionStatsBackendApiService } from 'domain/exploration/state-interaction-stats-backend-api.service';
 import { StatsReportingBackendApiService } from 'domain/exploration/stats-reporting-backend-api.service';
@@ -209,6 +211,7 @@ import { AdminTaskManagerService } from 'pages/admin-page/services/admin-task-ma
 import { ContributionOpportunitiesBackendApiService } from 'pages/contributor-dashboard-page/services/contribution-opportunities-backend-api.service';
 import { EmailDashboardDataService } from 'pages/email-dashboard-pages/email-dashboard-data.service';
 import { AnswerGroupsCacheService } from 'pages/exploration-editor-page/editor-tab/services/answer-groups-cache.service';
+import { ExplorationDataService } from 'pages/exploration-editor-page/services/exploration-data.service';
 import { InteractionDetailsCacheService } from 'pages/exploration-editor-page/editor-tab/services/interaction-details-cache.service';
 import { SolutionValidityService } from 'pages/exploration-editor-page/editor-tab/services/solution-validity.service';
 import { ThreadDataBackendApiService } from 'pages/exploration-editor-page/feedback-tab/services/thread-data-backend-api.service';
@@ -372,13 +375,19 @@ export const angularServices: [string, unknown][] = [
     DragAndDropSortInputValidationService],
   ['EditabilityService', EditabilityService],
   ['EditableCollectionBackendApiService', EditableCollectionBackendApiService],
+<<<<<<< HEAD
   ['EditableTopicBackendApiService', EditableTopicBackendApiService],
   ['EditableStoryBackendApiService', EditableStoryBackendApiService],
+=======
+  ['EditableExplorationBackendApiService',
+    EditableExplorationBackendApiService],
+>>>>>>> darksun-repo/migrate-editable-exploration-backend
   ['EditorFirstTimeEventsService', EditorFirstTimeEventsService],
   ['EmailDashboardBackendApiService', EmailDashboardBackendApiService],
   ['EmailDashboardDataService', EmailDashboardDataService],
   ['EndExplorationRulesService', EndExplorationRulesService],
   ['EndExplorationValidationService', EndExplorationValidationService],
+  ['ExplorationDataService', ExplorationDataService],
   ['ExplorationSummaryBackendApiService', ExplorationSummaryBackendApiService],
   ['ExplorationDiffService', ExplorationDiffService],
   ['ExplorationFeaturesBackendApiService',
@@ -523,6 +532,8 @@ export const angularServices: [string, unknown][] = [
   ['RatioExpressionInputValidationService',
     RatioExpressionInputValidationService],
   ['ReadOnlyCollectionBackendApiService', ReadOnlyCollectionBackendApiService],
+  ['ReadOnlyExplorationBackendApiService',
+    ReadOnlyExplorationBackendApiService],
   ['ReadOnlySubtopicPageObjectFactory', ReadOnlySubtopicPageObjectFactory],
   ['ReadOnlyTopicObjectFactory', ReadOnlyTopicObjectFactory],
   ['RecordedVoiceoversObjectFactory', RecordedVoiceoversObjectFactory],
