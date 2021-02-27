@@ -17,37 +17,18 @@
  * on the type of response received as a result of the autosaving request.
  */
 
-require('domain/utilities/url-interpolation.service.ts');
-require('pages/exploration-editor-page/services/exploration-data.service.ts');
-require('services/local-storage.service.ts');
-require(
-  'pages/exploration-editor-page/modal-templates/' +
-  'save-validation-fail-modal.controller.ts');
-require(
-  'pages/exploration-editor-page/modal-templates/' +
-  'save-version-mismatch-modal.controller.ts');
-require(
-  'pages/exploration-editor-page/modal-templates/' +
-  'lost-changes-modal.controller.ts');
-
-
-angular.module('oppia').factory('AutosaveInfoModalsService', [
-  '$uibModal', 'LocalStorageService', 'UrlInterpolationService',
-  function(
-      $uibModal, LocalStorageService, UrlInterpolationService) {
-    var _isModalOpen = false;
-
-    
-  }
-]);
 import { downgradeInjectable } from '@angular/upgrade/static';
 import { Injectable } from '@angular/core';
 
 import { LocalStorageService } from 'services/local-storage.service';
-import { UrlInterpolationService } from 'domain/utilities/url-interpolation.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SaveValidationFailModalComponent } from '../modal-templates/save-validation-fail-modal.component';
-import { SaveVersionMismatchModalComponent } from '../modal-templates/save-version-mismatch-modal.component';
+import { SaveValidationFailModalComponent } from
+  '../modal-templates/save-validation-fail-modal.component';
+import { SaveVersionMismatchModalComponent } from
+  '../modal-templates/save-version-mismatch-modal.component';
+import { LostChange } from 'domain/exploration/LostChangeObjectFactory';
+import { LostChangesModalComponent } from
+  '../modal-templates/lost-changes-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -55,15 +36,16 @@ import { SaveVersionMismatchModalComponent } from '../modal-templates/save-versi
 export class AutosaveInfoModalsService {
   constructor(
     private ngbModal: NgbModal,
-    private localStorageSerive: LocalStorageService,
-    private urlInterpolationService: UrlInterpolationService
+    private localStorageService: LocalStorageService
   ) {}
 
   private _isModalOpen: boolean = false;
 
   showNonStrictValidationFailModal(): void {
-    const modalRef = this.ngbModal.open(
-      SaveValidationFailModalComponent, {backdrop:'static'}
+    this.ngbModal.open(
+      SaveValidationFailModalComponent, {
+        backdrop: 'static'
+      }
     ).result.then(() => {
       this._isModalOpen = false;
     }, () => {
@@ -77,14 +59,14 @@ export class AutosaveInfoModalsService {
     return this._isModalOpen;
   }
 
-  showVersionMismatchModal(lostChanges) {
+  showVersionMismatchModal(lostChanges: LostChange[]): void {
     const modalRef = this.ngbModal.open(
       SaveVersionMismatchModalComponent, {
-        backdrop:'static',
-        windowClass:'oppia-autosave-version-mismatch-modal'
+        backdrop: 'static',
+        windowClass: 'oppia-autosave-version-mismatch-modal'
       }
-    )
-    modalRef.componentInstance.lostChanges = lostChanges
+    );
+    modalRef.componentInstance.lostChanges = lostChanges;
     modalRef.result.then(() => {
       this._isModalOpen = false;
     }, () => {
@@ -93,31 +75,22 @@ export class AutosaveInfoModalsService {
 
     this._isModalOpen = true;
   }
-  return {
-    showLostChangesModal: function(lostChanges, explorationId) {
-      $uibModal.open({
-        templateUrl: UrlInterpolationService.getDirectiveTemplateUrl(
-          '/pages/exploration-editor-page/modal-templates/' +
-          'lost-changes-modal.template.html'),
-        // Prevent modal from closing when the user clicks outside it.
+  showLostChangesModal(lostChanges: LostChange[], explorationId: string): void {
+    const modalRef = this.ngbModal.open(
+      LostChangesModalComponent, {
         backdrop: 'static',
-        resolve: {
-          lostChanges: () => lostChanges
-        },
-        controller: 'LostChangesModalController',
         windowClass: 'oppia-lost-changes-modal'
-      }).result.then(function() {
-        _isModalOpen = false;
-      }, function() {
-        // When the user clicks on discard changes button, signal backend
-        // to discard the draft and reload the page thereafter.
-        LocalStorageService.removeExplorationDraft(explorationId);
-        _isModalOpen = false;
-      });
-
-      _isModalOpen = true;
-    }
-  };
+      }
+    );
+    modalRef.componentInstance.lostChanges = lostChanges;
+    modalRef.result.then(() => {
+      this._isModalOpen = false;
+    }, () => {
+      this.localStorageService.removeExplorationDraft(explorationId);
+      this._isModalOpen = false;
+    });
+    this._isModalOpen = true;
+  }
 }
 angular.module('oppia').factory('AutosaveInfoModalsService',
   downgradeInjectable(AutosaveInfoModalsService));

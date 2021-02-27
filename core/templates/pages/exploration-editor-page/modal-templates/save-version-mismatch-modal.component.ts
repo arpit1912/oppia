@@ -14,12 +14,12 @@ import { ExplorationDataService } from '../services/exploration-data.service';
 export class SaveVersionMismatchModalComponent {
   constructor(
   private explorationDataService: ExplorationDataService,
-	private windowRef: WindowRef,
-	private loggerService: LoggerService,
+  private windowRef: WindowRef,
+  private loggerService: LoggerService,
   private lostChangeObjectFactory: LostChangeObjectFactory
   ) {}
 
-	@Input() lostChanges:LostChange[];
+  @Input() lostChanges:LostChange[];
 
   MSECS_TO_REFRESH: number = 20;
 
@@ -35,10 +35,10 @@ export class SaveVersionMismatchModalComponent {
       // HOw to use Apply Async here?
     });
 
-    var hasLostChanges = (this.lostChanges && this.lostChanges.length > 0);
+    let hasLostChanges = (this.lostChanges && this.lostChanges.length > 0);
 
     if (hasLostChanges) {
-      var lostChanges = this.lostChanges.map(
+      let lostChanges = this.lostChanges.map(
         this.lostChangeObjectFactory.createNew);
       this.loggerService.error('Lost changes: ' + JSON.stringify(lostChanges));
     }
