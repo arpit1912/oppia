@@ -26,7 +26,7 @@ import { SaveValidationFailModalComponent } from
   '../modal-templates/save-validation-fail-modal.component';
 import { SaveVersionMismatchModalComponent } from
   '../modal-templates/save-version-mismatch-modal.component';
-import { LostChange } from 'domain/exploration/LostChangeObjectFactory';
+import { LostChangeBackendDict } from 'domain/exploration/LostChangeObjectFactory';
 import { LostChangesModalComponent } from
   '../modal-templates/lost-changes-modal.component';
 
@@ -59,7 +59,7 @@ export class AutosaveInfoModalsService {
     return this._isModalOpen;
   }
 
-  showVersionMismatchModal(lostChanges: LostChange[]): void {
+  showVersionMismatchModal(lostChanges: LostChangeBackendDict[]): void {
     const modalRef = this.ngbModal.open(
       SaveVersionMismatchModalComponent, {
         backdrop: 'static',
@@ -75,7 +75,8 @@ export class AutosaveInfoModalsService {
 
     this._isModalOpen = true;
   }
-  showLostChangesModal(lostChanges: LostChange[], explorationId: string): void {
+  showLostChangesModal(
+      lostChanges: LostChangeBackendDict[], explorationId: string): void {
     const modalRef = this.ngbModal.open(
       LostChangesModalComponent, {
         backdrop: 'static',

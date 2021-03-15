@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { downgradeComponent } from '@angular/upgrade/static';
-import { LostChange, LostChangeObjectFactory } from 'domain/exploration/LostChangeObjectFactory';
+import { LostChangeBackendDict, LostChangeObjectFactory } from 'domain/exploration/LostChangeObjectFactory';
 import { LoggerService } from 'services/contextual/logger.service';
 import { WindowRef } from 'services/contextual/window-ref.service';
 import { ExplorationDataService } from '../services/exploration-data.service';
@@ -19,7 +19,7 @@ export class SaveVersionMismatchModalComponent {
   private lostChangeObjectFactory: LostChangeObjectFactory
   ) {}
 
-  @Input() lostChanges:LostChange[];
+  @Input() lostChanges:LostChangeBackendDict[];
 
   MSECS_TO_REFRESH: number = 20;
 

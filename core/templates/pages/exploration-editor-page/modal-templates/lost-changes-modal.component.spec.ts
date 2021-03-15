@@ -16,7 +16,7 @@
  * @fileoverview Unit tests for LostChangesModalController.
  */
 
-import { LostChange, LostChangeObjectFactory } from
+import { LostChangeBackendDict, LostChangeObjectFactory } from
   'domain/exploration/LostChangeObjectFactory';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UtilsService } from 'services/utils.service';
@@ -42,7 +42,7 @@ describe('Lost Changes Modal Controller', () => {
   let $uibModalInstance = null;
   let logSpy = null;
   const explorationId = '0';
-  const lostChanges:LostChange[] = [{
+  const lostChanges:LostChangeBackendDict[] = [{
     cmd: 'add_state',
     state_name: 'State name',
   }];
@@ -84,7 +84,7 @@ describe('Lost Changes Modal Controller', () => {
 
   it('should evaluates lostChanges when controller is initialized', () => {
     expect(component.lostChanges[0].cmd).toBe('add_state');
-    expect(component.lostChanges[0].stateName).toBe('State name');
+    expect(component.lostChanges[0].state_name).toBe('State name');
     expect(logSpy).toHaveBeenCalledWith(
       'Lost changes: ' + JSON.stringify(lostChanges));
   });

@@ -18,7 +18,7 @@
 
 import { Component, Input } from '@angular/core';
 import { downgradeComponent } from '@angular/upgrade/static';
-import { LostChange, LostChangeObjectFactory } from 'domain/exploration/LostChangeObjectFactory';
+import { LostChangeBackendDict, LostChangeObjectFactory } from 'domain/exploration/LostChangeObjectFactory';
 import { LoggerService } from 'services/contextual/logger.service';
 
 
@@ -28,7 +28,7 @@ import { LoggerService } from 'services/contextual/logger.service';
   styleUrls: []
 })
 export class LostChangesModalComponent {
-  @Input() lostChanges: LostChange[];
+  @Input() lostChanges:LostChangeBackendDict[];
 
   constructor(
         private loggerService: LoggerService,

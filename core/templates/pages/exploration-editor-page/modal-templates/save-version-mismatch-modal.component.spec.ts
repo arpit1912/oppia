@@ -16,7 +16,7 @@
  * @fileoverview Unit tests for SaveVersionMismatchModalController.
  */
 
-import { LostChange, LostChangeObjectFactory } from
+import { LostChangeBackendDict, LostChangeObjectFactory } from
   'domain/exploration/LostChangeObjectFactory';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { UtilsService } from 'services/utils.service';
@@ -33,9 +33,9 @@ describe('Save Version Mismatch Modal Controller', () => {
   const mockExplorationData = {
     discardDraft: (callback) => callback()
   };
-  const lostChanges:LostChange[] = [{
+  const lostChanges:LostChangeBackendDict[] = [{
     cmd: 'add_state',
-    stateName: 'State name',
+    state_name: 'State name',
   }];
 
   beforeEach(function() {
@@ -61,7 +61,7 @@ describe('Save Version Mismatch Modal Controller', () => {
 
   it('should evaluates lostChanges when controller is initialized', () => {
     expect(component.lostChanges[0].cmd).toBe('add_state');
-    expect(component.lostChanges[0].stateName).toBe('State name');
+    expect(component.lostChanges[0].state_name).toBe('State name');
 
     let logSpy = spyOn(loggerService, 'error').and.callThrough();
 
