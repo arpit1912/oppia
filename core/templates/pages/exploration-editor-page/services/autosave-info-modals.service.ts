@@ -55,7 +55,7 @@ export class AutosaveInfoModalsService {
     this._isModalOpen = true;
   }
 
-  isModalOpen():boolean {
+  isModalOpen(): boolean {
     return this._isModalOpen;
   }
 

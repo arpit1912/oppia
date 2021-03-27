@@ -20,7 +20,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AutosaveInfoModalsService } from './autosave-info-modals.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LostChangeBackendDict } from 'domain/exploration/LostChangeObjectFactory';
 
 describe('AutosaveInfoModalsService', () => {
@@ -56,8 +56,11 @@ describe('AutosaveInfoModalsService', () => {
   it('should close non strict validation fail modal successfully',
     () => {
       expect(autosaveInfoModalsService.isModalOpen()).toBe(false);
-      spyOn(ngbModal, 'open').and.returnValue({
-        result: $q.resolve()
+      spyOn(ngbModal, 'open').and.callFake((opt) => {
+        setTimeout(opt.beforeDismiss);
+        return <NgbModalRef>({
+          result: Promise.resolve('success')
+        });
       });
       autosaveInfoModalsService.showNonStrictValidationFailModal();
       expect(autosaveInfoModalsService.isModalOpen()).toBe(true);

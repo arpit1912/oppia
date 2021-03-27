@@ -16,8 +16,10 @@
  * @fileoverview Controller for lost changes modal.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { downgradeComponent } from '@angular/upgrade/static';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmOrCancelModal } from 'components/common-layout-directives/common-elements/confirm-or-cancel-modal.component';
 import { LostChangeBackendDict, LostChangeObjectFactory } from 'domain/exploration/LostChangeObjectFactory';
 import { LoggerService } from 'services/contextual/logger.service';
 
@@ -27,13 +29,19 @@ import { LoggerService } from 'services/contextual/logger.service';
   templateUrl: './lost-changes-modal.template.html',
   styleUrls: []
 })
-export class LostChangesModalComponent {
-  @Input() lostChanges:LostChangeBackendDict[];
+export class LostChangesModalComponent
+  extends ConfirmOrCancelModal implements OnInit {
+  @Input() lostChanges: LostChangeBackendDict[];
 
   constructor(
         private loggerService: LoggerService,
-        private lostChangeObjectFactory: LostChangeObjectFactory
+        private lostChangeObjectFactory: LostChangeObjectFactory,
+        protected ngbInstance: NgbActiveModal
   ) {
+    super(ngbInstance);
+  }
+
+  ngOnInit(): void {
     this.lostChanges.map(
       this.lostChangeObjectFactory.createNew
     );
