@@ -26,8 +26,6 @@ import { LostChangeBackendDict } from 'domain/exploration/LostChangeObjectFactor
 describe('AutosaveInfoModalsService', () => {
   let autosaveInfoModalsService: AutosaveInfoModalsService = null;
   let ngbModal: NgbModal = null;
-  let $q = null;
-  let $rootScope = null;
   const explorationId = '0';
   const lostChanges: LostChangeBackendDict[] = [{
     cmd: 'add_state',
@@ -64,7 +62,6 @@ describe('AutosaveInfoModalsService', () => {
       });
       autosaveInfoModalsService.showNonStrictValidationFailModal();
       expect(autosaveInfoModalsService.isModalOpen()).toBe(true);
-      $rootScope.$apply();
 
       expect(autosaveInfoModalsService.isModalOpen()).toBe(false);
     });
@@ -72,12 +69,15 @@ describe('AutosaveInfoModalsService', () => {
   it('should handle rejects when closing non strict validation fail modal',
     () => {
       expect(autosaveInfoModalsService.isModalOpen()).toBe(false);
-      spyOn(ngbModal, 'open').and.returnValue({
-        result: $q.reject()
+      spyOn(ngbModal, 'open').and.callFake((opt) => {
+        setTimeout(opt.beforeDismiss);
+        return <NgbModalRef>({
+          result: Promise.reject('fail')
+        });
       });
       autosaveInfoModalsService.showNonStrictValidationFailModal();
       expect(autosaveInfoModalsService.isModalOpen()).toBe(true);
-      $rootScope.$apply();
+
 
       expect(autosaveInfoModalsService.isModalOpen()).toBe(false);
     });
@@ -91,12 +91,14 @@ describe('AutosaveInfoModalsService', () => {
 
   it('should close version mismatch modal successfully', () => {
     expect(autosaveInfoModalsService.isModalOpen()).toBe(false);
-    spyOn(ngbModal, 'open').and.returnValue({
-      result: $q.resolve()
+    spyOn(ngbModal, 'open').and.callFake((opt) => {
+      setTimeout(opt.beforeDismiss);
+      return <NgbModalRef>({
+        result: Promise.resolve('success')
+      });
     });
     autosaveInfoModalsService.showVersionMismatchModal(lostChanges);
     expect(autosaveInfoModalsService.isModalOpen()).toBe(true);
-    $rootScope.$apply();
 
     expect(autosaveInfoModalsService.isModalOpen()).toBe(false);
   });
@@ -104,12 +106,14 @@ describe('AutosaveInfoModalsService', () => {
   it('should handle rejects when dismissing save version mismatch modal',
     () => {
       expect(autosaveInfoModalsService.isModalOpen()).toBe(false);
-      spyOn(ngbModal, 'open').and.returnValue({
-        result: $q.reject()
+      spyOn(ngbModal, 'open').and.callFake((opt) => {
+        setTimeout(opt.beforeDismiss);
+        return <NgbModalRef>({
+          result: Promise.reject('fail')
+        });
       });
       autosaveInfoModalsService.showVersionMismatchModal(lostChanges);
       expect(autosaveInfoModalsService.isModalOpen()).toBe(true);
-      $rootScope.$apply();
 
       expect(autosaveInfoModalsService.isModalOpen()).toBe(false);
     });
@@ -124,8 +128,11 @@ describe('AutosaveInfoModalsService', () => {
 
   it('should close show lost changes modal successfully', () => {
     expect(autosaveInfoModalsService.isModalOpen()).toBe(false);
-    spyOn(ngbModal, 'open').and.returnValue({
-      result: $q.resolve()
+    spyOn(ngbModal, 'open').and.callFake((opt) => {
+      setTimeout(opt.beforeDismiss);
+      return <NgbModalRef>({
+        result: Promise.resolve('success')
+      });
     });
     autosaveInfoModalsService.showLostChangesModal(lostChanges, explorationId);
     expect(autosaveInfoModalsService.isModalOpen()).toBe(true);
@@ -134,8 +141,11 @@ describe('AutosaveInfoModalsService', () => {
 
   it('should handle reject when dismissing show lost changes modal', () => {
     expect(autosaveInfoModalsService.isModalOpen()).toBe(false);
-    spyOn(ngbModal, 'open').and.returnValue({
-      result: $q.reject()
+    spyOn(ngbModal, 'open').and.callFake((opt) => {
+      setTimeout(opt.beforeDismiss);
+      return <NgbModalRef>({
+        result: Promise.reject('fail')
+      });
     });
     autosaveInfoModalsService.showLostChangesModal(lostChanges, explorationId);
     expect(autosaveInfoModalsService.isModalOpen()).toBe(true);

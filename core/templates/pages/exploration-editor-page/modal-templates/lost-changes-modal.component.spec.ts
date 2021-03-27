@@ -38,16 +38,13 @@ describe('Lost Changes Modal Controller', () => {
   let component: LostChangesModalComponent;
   let fixture: ComponentFixture<LostChangesModalComponent>;
   let loggerService: LoggerService = null;
-  let $scope = null;
-  let $uibModalInstance = null;
   let logSpy = null;
-  const explorationId = '0';
-  const lostChanges:LostChangeBackendDict[] = [{
+  const lostChanges: LostChangeBackendDict[] = [{
     cmd: 'add_state',
     state_name: 'State name',
   }];
 
-  beforeEach(function() {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LostChangesModalComponent],
       providers: [
@@ -71,16 +68,6 @@ describe('Lost Changes Modal Controller', () => {
     logSpy = spyOn(loggerService, 'error').and.callThrough();
   });
 
-
-  beforeEach(angular.mock.inject(($injector, $controller) => {
-    $controller(
-      'LostChangesModalController', {
-        $scope: $scope,
-        $uibModalInstance: $uibModalInstance,
-        explorationId: explorationId,
-        lostChanges: lostChanges
-      });
-  }));
 
   it('should evaluates lostChanges when controller is initialized', () => {
     expect(component.lostChanges[0].cmd).toBe('add_state');

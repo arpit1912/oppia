@@ -19,7 +19,7 @@ export class SaveVersionMismatchModalComponent {
   private lostChangeObjectFactory: LostChangeObjectFactory
   ) {}
 
-  @Input() lostChanges:LostChangeBackendDict[];
+  @Input() lostChanges: LostChangeBackendDict[];
 
   MSECS_TO_REFRESH: number = 20;
 

@@ -67,6 +67,9 @@ import { TruncatePipe } from 'filters/string-utility-filters/truncate.pipe';
 import { SummaryListHeaderComponent } from './state-directives/answer-group-editor/summary-list-header.component';
 import { PromoBarComponent } from './common-layout-directives/common-elements/promo-bar.component';
 import { DynamicContentModule } from './angular-html-bind/dynamic-content.module';
+import { SaveValidationFailModalComponent } from 'pages/exploration-editor-page/modal-templates/save-validation-fail-modal.component';
+import { SaveVersionMismatchModalComponent } from 'pages/exploration-editor-page/modal-templates/save-version-mismatch-modal.component';
+import { LostChangesModalComponent } from 'pages/exploration-editor-page/modal-templates/lost-changes-modal.component';
 
 // TODO(#11462): Delete these conditional values once firebase auth is launched.
 const firebaseAuthModules = AuthService.firebaseAuthIsEnabled ? [
@@ -107,8 +110,11 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     KeyboardShortcutHelpModalComponent,
     LazyLoadingComponent,
     LoadingDotsComponent,
+    LostChangesModalComponent,
     ProfileLinkImageComponent,
     ProfileLinkTextComponent,
+    SaveValidationFailModalComponent,
+    SaveVersionMismatchModalComponent,
     SharingLinksComponent,
     SkillMasteryViewerComponent,
     SocialButtonsComponent,
@@ -129,12 +135,15 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     BackgroundBannerComponent,
     SharingLinksComponent,
     SkillMasteryViewerComponent, AttributionGuideComponent,
-    LazyLoadingComponent, LoadingDotsComponent, SocialButtonsComponent,
+    LazyLoadingComponent, LoadingDotsComponent, LostChangesModalComponent,
+    SocialButtonsComponent,
     ProfileLinkImageComponent, ProfileLinkTextComponent,
     // These elements will remain here even after migration.
     TakeBreakModalComponent,
     ExplorationEmbedButtonModalComponent,
     KeyboardShortcutHelpModalComponent,
+    SaveValidationFailModalComponent,
+    SaveVersionMismatchModalComponent,
     SkillMasteryViewerComponent,
     SocialButtonsComponent,
     SummaryListHeaderComponent,
@@ -156,6 +165,9 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     BackgroundBannerComponent,
     ExplorationSummaryTileDirective,
     FocusOnDirective,
+    LostChangesModalComponent,
+    SaveValidationFailModalComponent,
+    SaveVersionMismatchModalComponent,
     SharingLinksComponent,
     SocialButtonsComponent,
     StorySummaryTileDirective,
