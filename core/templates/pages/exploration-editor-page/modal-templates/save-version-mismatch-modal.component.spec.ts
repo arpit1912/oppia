@@ -33,7 +33,7 @@ describe('Save Version Mismatch Modal Controller', () => {
   const mockExplorationData = {
     discardDraft: (callback) => callback()
   };
-  const lostChanges:LostChangeBackendDict[] = [{
+  const lostChanges: LostChangeBackendDict[] = [{
     cmd: 'add_state',
     state_name: 'State name',
   }];

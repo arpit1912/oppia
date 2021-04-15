@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Copyright 2021 The Oppia Authors. All Rights Reserved.
+=======
+// Copyright 2020 The Oppia Authors. All Rights Reserved.
+>>>>>>> 5a99b1e6c3bb3f094e54d6d3df681fc3647798d2
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +31,11 @@ import { ExplorationDataService } from '../services/exploration-data.service';
 
 @Component({
   selector: 'save-version-mismatch-modal',
+<<<<<<< HEAD
   templateUrl: './save-version-mismatch-modal.component.html',
+=======
+  templateUrl: './save-version-mismatch-modal.template.html',
+>>>>>>> 5a99b1e6c3bb3f094e54d6d3df681fc3647798d2
   styleUrls: []
 })
 export class SaveVersionMismatchModalComponent {

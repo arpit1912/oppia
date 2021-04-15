@@ -23,9 +23,16 @@ import { ConfirmOrCancelModal } from 'components/common-layout-directives/common
 import { LostChangeBackendDict, LostChangeObjectFactory } from 'domain/exploration/LostChangeObjectFactory';
 import { LoggerService } from 'services/contextual/logger.service';
 
+<<<<<<< HEAD
 @Component({
   selector: 'lost-changes-modal-component',
   templateUrl: './lost-changes-modal.component.html',
+=======
+
+@Component({
+  selector: 'lost-changes-modal-component',
+  templateUrl: './lost-changes-modal.template.html',
+>>>>>>> 5a99b1e6c3bb3f094e54d6d3df681fc3647798d2
   styleUrls: []
 })
 export class LostChangesModalComponent
@@ -33,7 +40,10 @@ export class LostChangesModalComponent
   @Input() lostChanges: LostChangeBackendDict[];
 
   constructor(
+<<<<<<< HEAD
     
+=======
+>>>>>>> 5a99b1e6c3bb3f094e54d6d3df681fc3647798d2
         private loggerService: LoggerService,
         private lostChangeObjectFactory: LostChangeObjectFactory,
         protected ngbInstance: NgbActiveModal

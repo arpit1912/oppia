@@ -22,7 +22,11 @@ import { WindowRef } from 'services/contextual/window-ref.service';
 
 @Component({
   selector: 'save-validation-fail-modal',
+<<<<<<< HEAD
   templateUrl: './save-validation-fail-modal.component.html',
+=======
+  templateUrl: './save-validation-fail-modal.template.html',
+>>>>>>> 5a99b1e6c3bb3f094e54d6d3df681fc3647798d2
   styleUrls: []
 })
 export class SaveValidationFailModalComponent {

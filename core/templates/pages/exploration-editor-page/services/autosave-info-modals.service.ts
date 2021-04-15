@@ -25,7 +25,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LostChangeBackendDict } from 'domain/exploration/LostChangeObjectFactory';
 
 import { SaveValidationFailModalComponent } from '../modal-templates/save-validation-fail-modal.component';
+<<<<<<< HEAD
 import { SaveVersionMismatchModalComponent } from '../modal-templates/save-version-mismatch-modal.component';
+=======
+import { SaveVersionMismatchModalComponent } from '../modal-templates/save-version-mismatch-modal.controller';
+>>>>>>> 5a99b1e6c3bb3f094e54d6d3df681fc3647798d2
 import { LostChangesModalComponent } from '../modal-templates/lost-changes-modal.component';
 
 @Injectable({

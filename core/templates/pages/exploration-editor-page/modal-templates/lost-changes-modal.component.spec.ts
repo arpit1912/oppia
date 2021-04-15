@@ -34,7 +34,11 @@ class MockActiveModal {
   }
 }
 
+<<<<<<< HEAD
 fdescribe('Lost Changes Modal Component', () => {
+=======
+describe('Lost Changes Modal Controller', () => {
+>>>>>>> 5a99b1e6c3bb3f094e54d6d3df681fc3647798d2
   let component: LostChangesModalComponent;
   let fixture: ComponentFixture<LostChangesModalComponent>;
   let loggerService: LoggerService = null;
