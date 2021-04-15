@@ -16,65 +16,61 @@
  * @fileoverview Unit tests for SaveVersionMismatchModalController.
  */
 
-import { LostChangeObjectFactory } from
+import { LostChangeBackendDict, LostChangeObjectFactory } from
   'domain/exploration/LostChangeObjectFactory';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { UtilsService } from 'services/utils.service';
 import { WindowRef } from 'services/contextual/window-ref.service';
+import { SaveVersionMismatchModalComponent } from './save-version-mismatch-modal.controller';
+import { LoggerService } from 'services/contextual/logger.service';
+import { ExplorationDataService } from '../services/exploration-data.service';
 
 describe('Save Version Mismatch Modal Controller', () => {
-  let $scope = null;
-  let $log = null;
-  let logSpy = null;
-  let $timeout = null;
-  let $q = null;
-  const windowRef = new WindowRef();
+  let component: SaveVersionMismatchModalComponent;
+  let fixture: ComponentFixture<SaveVersionMismatchModalComponent>;
+  let windowRef: WindowRef = null;
+  let loggerService: LoggerService = null;
   const mockExplorationData = {
     discardDraft: (callback) => callback()
   };
-  const lostChanges = [{
+  const lostChanges:LostChangeBackendDict[] = [{
     cmd: 'add_state',
     state_name: 'State name',
   }];
 
   beforeEach(function() {
     TestBed.configureTestingModule({
+      declarations: [SaveVersionMismatchModalComponent],
       providers: [
-        UtilsService
+        UtilsService,
+        WindowRef,
+        ExplorationDataService,
+        LoggerService,
+        LostChangeObjectFactory
       ]
-    });
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(SaveVersionMismatchModalComponent);
+    component = fixture.componentInstance;
+    windowRef = TestBed.inject(WindowRef);
+    loggerService = TestBed.inject(LoggerService);
+
+    component.lostChanges = lostChanges;
+    fixture.detectChanges();
   });
 
-  beforeEach(angular.mock.module('oppia', ($provide) => {
-    $provide.value('ExplorationDataService', mockExplorationData);
-    $provide.value('LostChangeObjectFactory', TestBed.get(
-      LostChangeObjectFactory));
-    $provide.value('WindowRef', windowRef);
-  }));
-  beforeEach(angular.mock.inject(($injector, $controller) => {
-    $log = $injector.get('$log');
-    $timeout = $injector.get('$timeout');
-    $q = $injector.get('$q');
-    logSpy = spyOn($log, 'error').and.callThrough();
-
-    const $rootScope = $injector.get('$rootScope');
-    $scope = $rootScope.$new();
-    $controller(
-      'SaveVersionMismatchModalController', {
-        $scope: $scope,
-        lostChanges: lostChanges
-      });
-  }));
-
   it('should evaluates lostChanges when controller is initialized', () => {
-    expect($scope.lostChanges[0].cmd).toBe('add_state');
-    expect($scope.lostChanges[0].stateName).toBe('State name');
+    expect(component.lostChanges[0].cmd).toBe('add_state');
+    expect(component.lostChanges[0].state_name).toBe('State name');
+
+    let logSpy = spyOn(loggerService, 'error').and.callThrough();
+
     expect(logSpy).toHaveBeenCalledWith(
       'Lost changes: ' + JSON.stringify(lostChanges));
   });
 
   it('should remove exploration draft from local storage when modal is closed',
-    () => {
+    fakeAsync(() => {
       const reloadSpy = jasmine.createSpy('reload');
       spyOnProperty(windowRef, 'nativeWindow').and.returnValue({
         location: {
@@ -84,17 +80,16 @@ describe('Save Version Mismatch Modal Controller', () => {
       const discardDraftSpy = (
         spyOn(mockExplorationData, 'discardDraft').and.callFake(
           () => {
-            var deferred = $q.defer();
-            deferred.resolve('sample-csrf-token');
-            return deferred.promise;
+            return new Promise((resolve) => {
+              resolve('sample-csrf-token');
+            });
           }
         ));
 
-      $scope.discardChanges();
-      $scope.$apply();
+      component.discardChanges();
+      fixture.detectChanges();
       expect(discardDraftSpy).toHaveBeenCalled();
-
-      $timeout.flush(20);
+      tick();
       expect(reloadSpy).toHaveBeenCalled();
-    });
+    }));
 });
