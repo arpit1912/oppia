@@ -76,6 +76,9 @@ import { PromoBarComponent } from './common-layout-directives/common-elements/pr
 import { DynamicContentModule } from './angular-html-bind/dynamic-content.module';
 import { ObjectComponentsModule } from 'objects/object-components.module';
 import { OnScreenKeyboardComponent } from './on-screen-keyboard/on-screen-keyboard.component';
+import { LostChangesModalComponent } from 'pages/exploration-editor-page/modal-templates/lost-changes-modal.component';
+import { SaveVersionMismatchModalComponent } from 'pages/exploration-editor-page/modal-templates/save-version-mismatch-modal.component';
+import { SaveValidationFailModalComponent } from 'pages/exploration-editor-page/modal-templates/save-validation-fail-modal.component';
 
 // TODO(#11462): Delete these conditional values once firebase auth is launched.
 const firebaseAuthModules = AuthService.firebaseAuthIsEnabled ? [
@@ -140,6 +143,9 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     TopicsAndSkillsDashboardNavbarBreadcrumbComponent,
     TranslatePipe,
     TruncatePipe,
+    LostChangesModalComponent,
+    SaveVersionMismatchModalComponent,
+    SaveValidationFailModalComponent
   ],
 
   entryComponents: [
@@ -164,6 +170,9 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     ThumbnailDisplayComponent,
     ThreadTableComponent,
     TopicsAndSkillsDashboardNavbarBreadcrumbComponent,
+    LostChangesModalComponent,
+    SaveVersionMismatchModalComponent,
+    SaveValidationFailModalComponent
   ],
 
   exports: [
@@ -198,6 +207,9 @@ const firebaseAuthProviders = AuthService.firebaseAuthIsEnabled ? [
     TopicsAndSkillsDashboardNavbarBreadcrumbComponent,
     TranslatePipe,
     WrapTextWithEllipsisPipe,
+    LostChangesModalComponent,
+    SaveVersionMismatchModalComponent,
+    SaveValidationFailModalComponent
   ],
 })
 

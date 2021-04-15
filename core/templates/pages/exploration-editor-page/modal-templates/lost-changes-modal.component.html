@@ -1,11 +1,11 @@
 <div class="modal-header">
-  <h3>Error Saving Exploration</h3>
+  <h3>Error Loading Exploration</h3>
 </div>
 
 <div class="modal-body">
   <p>
-    Sorry! Someone else has saved a new version of this exploration, so
-    your pending changes cannot be saved.
+    Sorry! The following changes will be lost. It appears that your
+    draft was overwritten by changes on another machine.
   </p>
 
   <p ng-show="hasLostChanges">
@@ -18,5 +18,5 @@
 </div>
 
 <div class="modal-footer">
-  <button class="btn btn-secondary" ng-click="discardChanges()">Discard Changes</button>
+  <button class="btn btn-secondary" (click)="cancel">Close</button>
 </div>
